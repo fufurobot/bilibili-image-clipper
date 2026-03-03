@@ -1,6 +1,3 @@
-def hello() -> str:
-    return "Hello from bilibili-image-clipper!"
-
 import pyperclip
 from PIL import Image
 import io
@@ -59,6 +56,43 @@ def encode_image_to_base64(image):
     buffered = io.BytesIO()
     image.save(buffered, format="PNG")
     return base64.b64encode(buffered.getvalue()).decode('utf-8')
+
+def compress_to_under_16kb(image, max_size=16384):
+    """
+    Compress image to ensure PNG file size is under max_size (default 16KB).
+    Returns a tuple (compressed_image, bytes_buffer) where compressed_image is a PIL Image.
+    """
+    # Start with original RGB image
+    img_rgb = image.convert("RGB")
+    
+    # First attempt: save with maximum compression, original colors
+    buffer = io.BytesIO()
+    img_rgb.save(buffer, format="PNG", optimize=True, compress_level=9)
+    size = buffer.tell()
+    print(f"Original size: {size} bytes")
+    
+    if size <= max_size:
+        print("Already under 16KB, no compression needed.")
+        return img_rgb, buffer
+    
+    # If too large, try reducing colors
+    color_levels = [128, 64, 32, 16, 8, 4, 2]
+    for colors in color_levels:
+        print(f"Trying {colors} colors...")
+        # Quantize to palette
+        quantized = img_rgb.quantize(colors=colors)
+        buffer = io.BytesIO()
+        quantized.save(buffer, format="PNG", optimize=True, compress_level=9)
+        size = buffer.tell()
+        print(f"Size with {colors} colors: {size} bytes")
+        if size <= max_size:
+            print(f"Success with {colors} colors.")
+            # Convert back to RGB? No, palette is fine for PNG.
+            return quantized, buffer
+    
+    # If still too large (unlikely for 169x169), fallback to most aggressive (2 colors)
+    print("Warning: Could not get under 16KB even with 2 colors. Using 2-color image.")
+    return quantized, buffer
 
 def generate_name_with_ollama(image_base64):
     """Generate 4-character name using Ollama qwen-vl:2b-instruct"""
@@ -129,7 +163,7 @@ def main():
         print("Cropping to 169x169...")
         cropped_image = crop_to_square(image, 169)
         
-        print("Encoding image...")
+        print("Encoding image for AI analysis...")
         image_base64 = encode_image_to_base64(cropped_image)
         
         print("Generating name with Ollama...")
@@ -148,10 +182,17 @@ def main():
         
         filename = f"{safe_name}.png"
         
-        print(f"Saving as {filename}...")
-        cropped_image.save(filename, "PNG")
+        print("Compressing image to stay under 16KB...")
+        compressed_image, buffer = compress_to_under_16kb(cropped_image)
         
-        print(f"Success! Image saved as: {filename}")
+        print(f"Saving as {filename}...")
+        # Save the compressed image from buffer or directly
+        with open(filename, "wb") as f:
+            f.write(buffer.getvalue())
+        
+        # Verify final size
+        final_size = os.path.getsize(filename)
+        print(f"Success! Image saved as: {filename} (Size: {final_size} bytes)")
         
     except Exception as e:
         print(f"Error: {e}")
