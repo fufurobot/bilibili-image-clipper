@@ -160,8 +160,8 @@ def main():
         image = read_image_from_clipboard()
         print(f"Image loaded: {image.size}")
         
-        print("Cropping to 169x169...")
-        cropped_image = crop_to_square(image, 169)
+        print("Cropping to 162x162...")
+        cropped_image = crop_to_square(image, 162)
         
         print("Encoding image for AI analysis...")
         image_base64 = encode_image_to_base64(cropped_image)
