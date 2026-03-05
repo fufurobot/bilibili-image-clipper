@@ -4,7 +4,7 @@ A tool to crop images from clipboard to 169x169 pixels and generate creative 4-c
 
 ## Installation
 
-1. Install Ollama and pull the model:
+1. Install Ollama and pull the model \[WIP, debugging\]:
 ```bash
 ollama pull qwen-vl:2b-instruct
 ollama serve
@@ -26,7 +26,7 @@ bilibili-clip
 The script will:
 - Read image from clipboard
 - Crop it to 169x169 (centered square)
-- Generate a 4-character name using AI
+- Generate a 4-character name using AI \[WIP, debugging\]
 - Save as `[generated_name].png` in current directory
 
 ## Requirements
