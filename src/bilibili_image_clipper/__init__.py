@@ -97,14 +97,12 @@ def compress_to_under_16kb(image, max_size=16384):
 def generate_name_with_ollama(image_base64):
     """Generate 4-character name using Ollama qwen-vl:2b-instruct"""
     
-    # Prepare the prompt
-    prompt = """Generate a creative 4-character name for this image. 
-    The name should be exactly 4 characters long - can be letters, numbers, or symbols.
-    Only respond with the 4 characters, nothing else."""
-    
+    # use chinese prompt
+    prompt = """為這張圖片生成一個創意四字名稱。名稱應該正好由四個中文字符組成。僅回覆這四個字符，其他不需要。"""
+
     # Prepare the request payload
     payload = {
-        "model": "qwen-vl:2b-instruct",
+        "model": "qwen3-vl:2b-instruct",
         "messages": [
             {
                 "role": "user",
