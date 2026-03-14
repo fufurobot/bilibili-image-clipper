@@ -202,6 +202,6 @@ if __name__ == "__main__":
     except:
         print("Warning: Ollama doesn't seem to be running at http://localhost:11434")
         print("Make sure Ollama is installed and running with: ollama serve")
-        print("And pull the model: ollama pull qwen-vl:2b-instruct")
+        print("And pull the model: ollama pull qwen3-vl:2b-instruct")
     
     main()
