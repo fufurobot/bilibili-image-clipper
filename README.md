@@ -25,6 +25,6 @@ uv run bilibili-clip
 
 The script will:
 - Read image from clipboard
-- Crop it to 169x169 (centered square)
+- Crop it to 162x162 (centered square)
 - Generate a 4-character name using AI
 - Save as `[generated_name].png` in current directory
