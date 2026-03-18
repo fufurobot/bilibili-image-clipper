@@ -137,9 +137,6 @@ def generate_name_with_ollama(image_base64):
                         break
                 else:
                     name = name[:4]
-            elif len(name) < 4:
-                # Pad with underscores if too short
-                name = name.ljust(4, '_')
             
             return name
         else:
