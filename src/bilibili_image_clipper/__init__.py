@@ -102,7 +102,7 @@ def generate_name_with_ollama(image_base64):
 
     # Prepare the request payload
     payload = {
-        "model": "qwen3-vl:2b-instruct",
+        "model": "qwen3.5:0.8b",
         "messages": [
             {
                 "role": "user",
@@ -110,7 +110,8 @@ def generate_name_with_ollama(image_base64):
                 "images": [image_base64]
             }
         ],
-        "stream": False
+        "stream": False,
+        "think": False
     }
     
     # Make the request to Ollama
@@ -202,6 +203,6 @@ if __name__ == "__main__":
     except:
         print("Warning: Ollama doesn't seem to be running at http://localhost:11434")
         print("Make sure Ollama is installed and running with: ollama serve")
-        print("And pull the model: ollama pull qwen3-vl:2b-instruct")
+        print("And pull the model: ollama pull qwen3.5:0.8b")
     
     main()

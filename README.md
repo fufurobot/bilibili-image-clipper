@@ -1,12 +1,12 @@
 # Bilibili Image Clipper
 
-A tool to crop images from clipboard to 169x169 pixels and generate creative 4-character names using Ollama's qwen3-vl:2b-instruct model.
+A tool to crop images from clipboard to 169x169 pixels and generate creative 4-character names using Ollama's qwen3.5:0.8b model.
 
 ## Installation
 
 1. Install Ollama and pull the model:
 ```bash
-ollama pull qwen3-vl:2b-instruct
+ollama pull qwen3.5:0.8b
 ollama serve # for Microsoft Windows users keep the ollama tray icon there is enough, this is not required
 ```
 
