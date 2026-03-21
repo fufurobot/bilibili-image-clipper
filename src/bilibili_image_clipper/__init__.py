@@ -139,6 +139,8 @@ def generate_name_with_ollama(image_base64):
                     name = name[:4]
             
             return name
+        elif response.status_code == 404:
+            print("model not found, please pull the model: ollama pull qwen3.5:0.8b")
         else:
             print(f"Ollama API error: {response.status_code}")
             return None
@@ -189,7 +191,7 @@ def main():
         # Verify final size
         final_size = os.path.getsize(filename)
         print(f"Success! Image saved as: {filename} (Size: {final_size} bytes)")
-        
+
     except Exception as e:
         print(f"Error: {e}")
 
