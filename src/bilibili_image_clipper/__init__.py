@@ -98,7 +98,7 @@ def generate_name_with_ollama(image_base64):
     """Generate 4-character name using Ollama qwen-vl:2b-instruct"""
     
     # use chinese prompt
-    prompt = """為這張圖片生成一個創意四字名稱。名稱應該正好由四個中文字符組成。僅回覆這四個字符，其他不需要。"""
+    prompt = """為這張圖片生成一個有創意的四個字名稱。名稱應該正好由四個中文字符組成。只回覆這四個字，別的都不要。如果圖片包含中文字符，請選擇其中四個中文字符作為檔名。"""
 
     # Prepare the request payload
     payload = {
